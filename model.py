@@ -161,3 +161,13 @@ class Decoder(nn.Module):
         for layer in self.layers:
             x = layer(x, encoder_output, src_mask, tgt_mask)
         return self.norm(x)
+
+#For projecting the embedding into the vocabulary
+class ProjectionLayer(nn.Module):
+    def __init__(self, vocab_size: int, d_model: int)-> None:
+        super.__init__()
+        self.proj = nn.Linear(d_model, vocab_size)
+    def forward(self, x):
+        return torch.log_softmax(self.proj(x), dim=-1)
+
+        
